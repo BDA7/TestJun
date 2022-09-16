@@ -19,17 +19,40 @@ class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
         return view
     }()
 
+    private let leftView = UIButton()
+    private let storeButton = UIButton()
+    private let likeButton = UIButton()
+    private let profileButton = UIButton()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.delegate = self
-        self.selectedIndex = 1
+        self.selectedIndex = 0
+        self.viewControllers = [HomeViewModule.setupHomeView(), UIViewController(), UIViewController()]
         tabbarSettings()
-        setupMiddleButton()
+        setupLeftButton()
+        setupStoreImage()
+        setupLikeImage()
+        setupProfileImage()
+        self.view.layoutIfNeeded()
     }
+    override func viewDidLayoutSubviews() {
+        tabBar.frame = CGRect(x: 0, y: self.view.bounds.height-72, width: tabBar.frame.size.width, height: 72)
+        super.viewDidLayoutSubviews()
+      }
 
-    private func setupMiddleButton() {
-        let leftView = UIView()
+    func tabbarSettings() {
+        self.tabBar.layer.masksToBounds = true
+        self.tabBar.layer.cornerRadius = 36
+        self.tabBar.barTintColor = UIColor(red: 0.004, green: 0, blue: 0.15, alpha: 1)
+        self.tabBar.backgroundColor = UIColor(red: 0.004, green: 0, blue: 0.15, alpha: 1)
+    }
+}
+
+
+extension RootTabbarController {
+    private func setupLeftButton() {
         self.tabBar.addSubview(leftView)
         leftView.snp.makeConstraints { make in
             make.top.equalTo(self.tabBar.snp.top).inset(26)
@@ -56,12 +79,61 @@ class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
             make.bottom.equalTo(leftView)
         }
 
-        self.view.layoutIfNeeded()
+        leftView.addTarget(self, action: #selector(changeToExplorer), for: .touchUpInside)
     }
 
-    func tabbarSettings() {
-        self.tabBar.layer.masksToBounds = true
-        self.tabBar.layer.cornerRadius = 30
-        self.tabBar.barTintColor = UIColor(red: 0.004, green: 0, blue: 0.15, alpha: 1)
+    @objc
+    private func changeToExplorer(_ sender: UIButton) {
+        self.selectedIndex = 0
+    }
+
+    private func setupStoreImage() {
+        self.tabBar.addSubview(storeButton)
+        storeButton.snp.makeConstraints { make in
+            make.leading.equalTo(leftView.snp.trailing).inset(-47)
+            make.centerY.equalTo(leftView.snp.centerY)
+            make.width.height.equalTo(18)
+        }
+        storeButton.setImage(UIImage(named: "StoreImage"), for: .normal)
+        storeButton.addTarget(self, action: #selector(changeToStore), for: .touchUpInside)
+    }
+
+    @objc
+    private func changeToStore(_ sender: UIButton) {
+        self.selectedIndex = 1
+    }
+
+    private func setupLikeImage() {
+        self.tabBar.addSubview(likeButton)
+        likeButton.snp.makeConstraints { make in
+            make.leading.equalTo(storeButton.snp.trailing).inset(-52.46)
+            make.centerY.equalTo(storeButton.snp.centerY)
+            make.width.equalTo(19)
+            make.height.equalTo(17)
+        }
+        likeButton.setImage(UIImage(named: "likeImage"), for: .normal)
+        likeButton.addTarget(self, action: #selector(changeToLiked), for: .touchUpInside)
+    }
+
+    @objc
+    private func changeToLiked(_ sender: UIButton) {
+        self.selectedIndex = 2
+    }
+
+    private func setupProfileImage() {
+        self.tabBar.addSubview(profileButton)
+        profileButton.snp.makeConstraints { make in
+            make.leading.equalTo(likeButton.snp.trailing).inset(-52)
+            make.centerY.equalTo(likeButton.snp.centerY)
+            make.width.equalTo(17.01)
+            make.height.equalTo(17.57)
+        }
+        profileButton.setImage(UIImage(named: "ProfileIcon"), for: .normal)
+        profileButton.addTarget(self, action: #selector(changeToProfile), for: .touchUpInside)
+    }
+
+    @objc
+    private func changeToProfile(_ sender: UIButton) {
+        self.selectedIndex = 3
     }
 }
