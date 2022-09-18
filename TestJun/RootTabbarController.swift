@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
-    lazy var circularView: UIView = {
+    private lazy var circularView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.snp.makeConstraints { make in
@@ -28,7 +28,6 @@ class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
 
         self.delegate = self
-        self.selectedIndex = 0
         self.viewControllers = [HomeViewModule.setupHomeView(), UIViewController(), UIViewController()]
         tabbarSettings()
         setupLeftButton()
@@ -36,6 +35,7 @@ class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
         setupLikeImage()
         setupProfileImage()
         self.view.layoutIfNeeded()
+        self.selectedIndex = 0
     }
     override func viewDidLayoutSubviews() {
         tabBar.frame = CGRect(x: 0, y: self.view.bounds.height-72, width: tabBar.frame.size.width, height: 72)
