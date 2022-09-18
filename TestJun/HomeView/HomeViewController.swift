@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 enum HomeViewActions {
     case updateCollectionView(newProducts: ModelsNetwork)
@@ -35,6 +36,7 @@ class HomeViewController: UIViewController, HomeViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         view.addSubview(collectionView)
         interactor?.actionInteractor(action: .getProducts)
     }
@@ -205,4 +207,56 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 
 
+}
+
+extension HomeViewController {
+    private func setupNavigationBar() {
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        let pointImage = UIImageView(image: UIImage(named: "PointImage"))
+        let centerView = UIView()
+        let label = UILabel()
+        let retractableButton = UIButton()
+
+        let nullView = UIView()
+        self.navigationItem.titleView = nullView
+        self.navigationItem.titleView?.addSubview(centerView)
+
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = UIColor(red: 0.004, green: 0, blue: 0.208, alpha: 1)
+        label.textAlignment = .center
+        label.attributedText = NSMutableAttributedString(string: "Zihuatanejo, Gro", attributes: [NSAttributedString.Key.kern: -0.33])
+
+        retractableButton.setImage(UIImage(named: "retractableButtonImage"), for: .normal)
+
+        centerView.addSubview(pointImage)
+        centerView.addSubview(label)
+        centerView.addSubview(retractableButton)
+        
+        centerView.snp.makeConstraints { make in
+            make.width.equalTo(160)
+            make.height.equalTo(19)
+            make.centerY.equalTo(nullView.snp.centerY)
+            make.centerX.equalTo(nullView.snp.centerX)
+        }
+
+        pointImage.snp.makeConstraints { make in
+            make.leading.equalTo(centerView)
+            make.centerY.equalTo(centerView.snp.centerY)
+            make.width.equalTo(12)
+            make.height.equalTo(15.31)
+        }
+        label.snp.makeConstraints { make in
+            make.top.equalTo(centerView)
+            make.leading.equalTo(pointImage.snp.trailing).inset(-11)
+            make.height.equalTo(19)
+            make.width.equalTo(119)
+        }
+
+        retractableButton.snp.makeConstraints { make in
+            make.height.equalTo(5)
+            make.width.equalTo(10)
+            make.centerY.equalTo(label.snp.centerY)
+            make.leading.equalTo(label.snp.trailing).inset(-8)
+        }
+    }
 }

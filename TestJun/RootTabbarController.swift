@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
+    private let homeView = UINavigationController(rootViewController: HomeViewModule.setupHomeView())
     private lazy var circularView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -28,7 +29,7 @@ class RootTabbarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
 
         self.delegate = self
-        self.viewControllers = [HomeViewModule.setupHomeView(), UIViewController(), UIViewController()]
+        self.viewControllers = [homeView, UIViewController(), UIViewController()]
         tabbarSettings()
         setupLeftButton()
         setupStoreImage()
