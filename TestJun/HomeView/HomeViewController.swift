@@ -258,5 +258,23 @@ extension HomeViewController {
             make.centerY.equalTo(label.snp.centerY)
             make.leading.equalTo(label.snp.trailing).inset(-8)
         }
+        setupRightBarButton()
+    }
+
+    private func setupRightBarButton() {
+        let button = UIButton()
+        button.setImage(UIImage(named: "SortedButton"), for: .normal)
+        button.snp.makeConstraints { make in
+            make.height.equalTo(13)
+            make.width.equalTo(11)
+        }
+        button.addTarget(self, action: #selector(sortedItems), for: .touchUpInside)
+        let rightButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = rightButton
+    }
+
+    @objc
+    private func sortedItems(_ sender: UIButton) {
+        
     }
 }
