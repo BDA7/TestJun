@@ -6,24 +6,30 @@
 //
 
 import Foundation
+import UIKit
 
 enum HomeInteractorActions {
     case getProducts
+    case presentBottomSheet(_ controller: UIViewController)
 }
 
 protocol HomeInteractorProtocol: AnyObject {
     var presenter: HomePresenterProtocol? { get set }
+    var router: HomeRouterProtocol? { get set }
     func actionInteractor(action: HomeInteractorActions)
 }
 
 class HomeInteractor: HomeInteractorProtocol {
     var presenter: HomePresenterProtocol?
+    var router: HomeRouterProtocol?
     
     func actionInteractor(action: HomeInteractorActions) {
         switch action {
             
         case .getProducts:
             getProducts()
+        case .presentBottomSheet(let controller):
+            presentBottomSheet(controller)
         }
     }
 }
@@ -39,5 +45,9 @@ extension HomeInteractor {
                 print(error.localizedDescription)
             }
         }
+    }
+
+    private func presentBottomSheet(_ controller: UIViewController) {
+        router?.actions(.presentBottomSheet(controller))
     }
 }

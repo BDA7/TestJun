@@ -12,10 +12,12 @@ class HomeViewModule {
         let view = HomeViewController()
         let presenter = HomePresenter()
         let interactor = HomeInteractor()
+        let router = HomeRouter()
 
         view.interactor = interactor
         presenter.view = view
         interactor.presenter = presenter
+        interactor.router = router
 
         return view
     }

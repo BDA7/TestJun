@@ -275,6 +275,6 @@ extension HomeViewController {
 
     @objc
     private func sortedItems(_ sender: UIButton) {
-        
+        interactor?.actionInteractor(action: .presentBottomSheet(self))
     }
 }
